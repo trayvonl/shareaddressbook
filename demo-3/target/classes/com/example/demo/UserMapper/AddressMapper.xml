@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.UserMapper.AddressBookMapper">
+    <select id="searchAddressBooks" resultType="com.example.demo.vo.AddressResult">
+       select from MY."AddressBookInfom"
+       where (AddressBookInfom."group" = #{group} or #{group} = '' or #{group} is null)
+       and (AddressBookInfom."abName" = #{abName} or #{abName} = '' or #{abName} is null)
+       and (AddressBookInfom."registerName" = #{registerName} or #{registerName} = '' or #{registerName} is null)
+    </select>
+     <select id="getRegisterName" resultType="com.example.demo.bean.register">
+		select distinct AddressBookInfom."registerName" 
+       	from MY."AddressBookInfom"      
+    </select>
+   <insert id="add" parameterType="com.example.demo.vo.addAddressResult">
+    	insert into MY."AddressBookInfom" ("abName","projectName","group","registerName","createDate") 
+		values (#{abName}, #{projectName}, #{group}, #{registerName}, #{createDate})   	
+    </insert>
+
+    </mapper>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+.login{
+    width: 400px;
+    height: 300px;
+    background-color: red;
+}
+.login-head{
+    width: 400px;
+    height: 50px;
+    background-color: blue;
+    border-bottom: 1px solid black;
+}
+.login-body{
+    width: 400px;
+    height: 250px;
+    background-color: blueviolet;
+}
+.login-body input{
+    width: 380px;
+    margin-left: 10px;
+    height: 40px;
+    margin-top: 20px;
+    border: 1px solid black;
+}
+.login-butt{
+    width: 400px;
+    height: 100px;
+}
+.login-butt button{
+    width: 380px;
+    height: 40px;
+    margin-left: 10px;
+    background-color: blue;
+}
+    </style>
+</head>
+<body>
+    <form th:action="@{userLogin}" method="post">
+        <div class="login">
+            <div class="login-head">
+                login
+            </div>
+            <div class="login-body" >
+                <input type="text" placeholder="请输入账号">
+                <input type="password" placeholder="请输入密码">
+            </div>
+                <div class="login-butt">
+                <button id="loginbutt" type="submit">登录</button>
+                <button type="button" onclick="changepw">修改密码</button>
+            </div>
+        </div>
+	</form>
+    <script>
+    $("#loginbutt").click(() => {
+        const data = {
+        	    userName: $('#userName').val(),
+        	   	passWord: $('#passWord').val(),
+        	};
+        $.ajax({
+            url: `http://localhost:8080/userLogin`,
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType : 'application/json;charset=utf-8',
+            success: function (data) {
+	
+            }
+        });
+    });
+	function changepw(){
+		location.href = '[[@{/changepw}]]';
+	}
+    </script>
+</body>
+</html>

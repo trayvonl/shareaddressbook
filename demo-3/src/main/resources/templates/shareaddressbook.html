@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .adressform{
+            width: 80%;
+            height: 500px;
+            border: 1px solid black;
+            background-color: gray;
+        }
+        .formhead{
+            width: 80%;
+            height: 40px;
+            font-weight: bold;
+            background-color: gray;
+            border-bottom: 1px solid black;
+        }
+        .formbody{
+            width: 80%;
+            height: 260px;
+            background-color: gray;
+        }
+        .formbody li{
+            position: relative;
+            height: 40px;
+            width: 500px;
+            background-color: gray;
+            text-decoration: none;
+            padding: 0px;
+            margin: 0px;
+            border: 1px solid black;
+        }
+        .lihead{
+            position: absolute;
+            width: 100px;
+            height: 40px;
+            border-right: 1px solid black;
+            background-color: white;
+        }
+        .libody{
+            position: absolute;
+            width: 400px;
+            height: 40px;
+            background-color: white;
+            margin-left: 100px;
+        }
+        .libody select{
+            width: 40px;
+            height: 20px;
+        }
+        .libody input{
+            width: 300px;
+            height: 20px;
+            margin-top: 10px;
+        }
+        .libody button{
+        	width: 50px;
+        	height: 20px;
+        	
+        }
+        .formbut{
+            width: 500px;
+            height: 50px;
+            margin-left: 40px;
+        }
+        .formbut button{
+            float: right;
+            width: 60px;
+            height: 20px;
+            margin-right: 10px;
+        }
+        .showaddressform{
+            width: 80%;
+            height: 500px;
+        }
+        .tableheader td{
+            background-color: blue;
+            border: 1px solid black;
+        }
+        #register-box {
+			display: none;
+			position: fixed;
+			z-index: 1;
+			left: 0;
+			top: 0;
+			width: 200px;
+			height: 300px;
+			overflow: auto;
+			background-color: rgba(0,0,0,0.4);
+}
+		#register-content {
+			background-color: #fefefe;
+			margin: 15% auto;
+			padding: 20px;
+			border: 1px solid #888;
+			width: 30%;
+}
+</style>
+</head>
+<body>
+    <div class="addressform">
+        <div class="formhead">
+            详细信息检索
+        </div>
+        <div class="formbody">
+            <ul>
+                <li>
+                    <div class="lihead">
+                        所有者类别
+                    </div>
+                    <div class="libody">
+                        <select>
+                            <option>1</option>
+                            <option>2</option>
+                        </select>
+                    </div>
+                </li>
+                <li>
+                    <div class="lihead">
+                        通讯录名
+                    </div>
+                    <div class="libody">
+                        <input type="text">
+                    </div>
+                </li>
+                <li>
+                    <div class="lihead">
+                        登记者
+                    </div>
+                    <div class="libody">
+                        <input type="text">
+                        <button id="getregisterbutt" type="button"></button>
+                    </div>
+                </li>
+            </ul>
+            <div class="formbut">
+                <button id="sumitbutt" type="submit">检索</button>
+                <button type="reset">清除</button>
+            </div>
+        </div>
+          <div id="register-box">
+    <div id="register-content">
+        <div id="registerForm" th:fragment="getRegister">
+            <div th:each="registerList,state:${list2}">
+                <input type="radio" class="registerRadio" >
+                <label th:text="${registerList.registerName}">选择报告者</label> 
+            </div>
+        </div>
+        <button type="button">确定</button>
+    </div>
+</div>
+    </div>
+    <div class="showaddressform">
+        <table id="addressTable" th:fragment="abList">
+            <thead class="tableheader">
+            <tr>
+                <td>一览</td>
+                <td>编辑</td>
+                <td>显示项目</td>
+                <td>导出</td>
+                <td>通讯录名</td>
+                <td>所有者组名</td>
+                <td>更新时日</td>
+                <td>删除</td>
+            </tr>
+        </thead>
+        <tbody class="tablebody">
+            <tr th:each="ablist,state:${abList}">
+                <td></td>
+                <td></td>
+                <td th:text="${ablist.projectName}"></td>
+                <td></td>
+                <td th:text="${ablist.abName}"></td>
+                <td th:text="${ablist.group}"></td>
+                <td th:text="${ablist.updateTime}"></td>
+                <td></td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
+    <script>
+    $("#sumitbutt").click(() => {
+        const data = {
+        	    ownerGroup: $('#group').val(),
+        	    addressBookName: $('#abName').val(),
+        	    reporter: $('#register').val()
+        	};
+        $.ajax({
+            url: `http://localhost:8080/shareaddressbook`,
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType : 'application/json;charset=utf-8',
+            success: function (data) {
+                $("#registerForm").html(data);
+            }
+        });
+    }); 
+    $("#getregisterbutt").click(() => {
+    	$("#register-box").show();
+    	const data={
+    			registerName:$('#registerName').val(),	
+    	};
+    	  $.ajax({
+              url: `http://localhost:8080/getregistername`,
+              type: 'POST',
+              data: JSON.stringify(data),
+              contentType : 'application/json;charset=utf-8',
+              success: function (data) {
+            	  $("#reportersForm").html(data);
+              }
+          });
+    });
+    </script>
+</body>
+</html>

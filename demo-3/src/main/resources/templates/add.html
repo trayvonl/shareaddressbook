@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <form id="addform" th:action="@{/addAddress}" method="post">
+        <table class="add-box">         
+            <tr>
+                <td>通讯录名</td>
+                <td>
+                    <input type="text" >
+                </td>
+            </tr>
+            <tr >
+            <td>所在组别</td>
+            	<td>
+                <select>
+                	<option value=""></option>
+            		<option value="Group1">1</option>
+            		<option value="Group2">2</option>
+        		</select>
+        		</td>
+            </tr>
+            <tr>
+                <td>登记者</td>
+                <td>
+                    <input type="text">
+                </td>
+            </tr>
+            <tr>
+                <td>项目名</td>
+                <td>
+                    <input type="text">
+                </td>
+            </tr>
+        </table>
+            <button type="submit">添加</button>
+    </form>
+</body>
+</html>

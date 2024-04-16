@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style scoped>
+        .box {
+            width: 800px;
+            height: 565px;
+            margin: 70px auto;
+        }
+        .box-content {
+            position: relative;
+            overflow: hidden;
+            height: 465px;
+            background: #fff;
+            border-radius: 4px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+        }
+    </style>
+</head>
+<body>
+	<form th:action="@{/changePassWord}" method="post">
+        <div class="box">
+            <div class="box-content">
+                    <input  placeholder="6-13位字符，区分大小写">
+                    <template>新密码</template>
+                    <br/>
+                    <input placeholder="请输入确认密码">
+                    <template>确认密码</template>
+                    <br/>
+                    <button id="changepwbutt" type="submit">确认</button>
+            </div>
+        </div>
+        </form>
+    <script>
+    $("#changepwbutt").click(() => {
+        const data = {
+        	    userName: $('#userName').val(),
+        	    newPassWord: $('#newPassWord').val(),
+        	    reNewPassWord: $('#reNewPassWord').val()
+        	};
+        $.ajax({
+            url: `http://localhost:8080/changePassWord`,
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType : 'application/json;charset=utf-8',
+            success: function (data) {
+
+            }
+        });
+    });
+    </script>
+
+</body>
+
+</html>
