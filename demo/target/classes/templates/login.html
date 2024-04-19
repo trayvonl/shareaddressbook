@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+.login {
+	width: 400px;
+	height: 300px;
+}
+
+.login-head {
+	width: 400px;
+	height: 50px;
+	border-bottom: 1px solid black;
+}
+
+.login-body {
+	width: 400px;
+	height: 250px;
+}
+
+.login-body input {
+	width: 380px;
+	margin-left: 10px;
+	height: 40px;
+	margin-top: 20px;
+	border: 1px solid black;
+}
+
+.login-butt {
+	width: 400px;
+	height: 100px;
+}
+
+.login-butt button {
+	width: 380px;
+	height: 40px;
+	margin-left: 10px;
+}
+</style>
+</head>
+<body>
+	<form th:action="@{userLogin}" method="post">
+		<div class="login">
+			<div class="login-head">login</div>
+			<div class="login-body">
+				<input type="text" placeholder="请输入账号" name="userName"> <input
+					type="password" placeholder="请输入密码" name="passWord">
+			</div>
+			<div class="login-butt">
+				<button id="loginbutt" type="submit">登录</button>
+				<button type="button" onclick="gochangepw()">修改密码</button>
+			</div>
+		</div>
+		<div th:text="${error}"></div>
+	</form>
+	<script>
+	function gochangepw(){
+		location.href = '[[@{/changepw}]]';
+	}
+    </script>
+</body>
+</html>

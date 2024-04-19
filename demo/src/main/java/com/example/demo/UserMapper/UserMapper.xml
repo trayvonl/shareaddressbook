@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.UserMapper.UserMapper">
+	<select id="login" resultType="com.example.demo.vo.User"
+		parameterType="string">
+		select * from MY."User"
+		<where>
+			<if test="username != null and username != ''">
+				and USERNAME = #{userName}
+			</if>
+		</where>
+	</select>
+	<update id="update"
+		parameterType="com.example.demo.Bean.NewPassWord">
+		update MY."User"
+		set PASSWORD = #{newPassWord}
+		where PASSWORD=#{passWord}
+	</update>
+</mapper>

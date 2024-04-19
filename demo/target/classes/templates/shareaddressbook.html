@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style type="text/css">
+.adressform {
+	width: 80%;
+	height: 500px;
+	border: 1px solid black;
+	background-color: gray;
+}
+
+.formhead {
+	width: 80%;
+	height: 40px;
+	font-weight: bold;
+	background-color: gray;
+	border-bottom: 1px solid black;
+}
+
+.formbody {
+	width: 80%;
+	height: 260px;
+	background-color: gray;
+}
+
+.formbody li {
+	position: relative;
+	height: 40px;
+	width: 500px;
+	background-color: gray;
+	text-decoration: none;
+	padding: 0px;
+	margin: 0px;
+	border: 1px solid black;
+}
+
+.lihead {
+	position: absolute;
+	width: 100px;
+	height: 40px;
+	border-right: 1px solid black;
+	background-color: white;
+}
+
+.libody {
+	position: absolute;
+	width: 400px;
+	height: 40px;
+	background-color: white;
+	margin-left: 100px;
+}
+
+.libody select {
+	width: 40px;
+	height: 20px;
+}
+
+.libody input {
+	width: 300px;
+	height: 20px;
+	margin-top: 10px;
+}
+
+.libody button {
+	width: 50px;
+	height: 20px;
+}
+
+.formbut {
+	width: 500px;
+	height: 50px;
+	margin-left: 40px;
+}
+
+.formbut button {
+	float: right;
+	width: 60px;
+	height: 20px;
+	margin-right: 10px;
+}
+
+.showaddressform {
+	width: 80%;
+	height: 500px;
+}
+
+.tableheader td {
+	background-color: blue;
+	border: 1px solid black;
+}
+
+#register-box {
+	display: none;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 200px;
+	height: 300px;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.4);
+}
+
+#register-content {
+	background-color: #fefefe;
+	margin: 15% auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 30%;
+}
+</style>
+<body>
+	<form id="searchForm" method="post">
+		<div class="addressform">
+			<div class="formhead">详细信息检索</div>
+			<div class="formbody">
+				<ul>
+					<li>
+						<div class="lihead">所有者カテゴリ</div>
+						<div class="libody">
+							<select id="classGroup" name="classGroup">
+								<option></option>
+								<option>1</option>
+								<option>2</option>
+							</select>
+						</div>
+					</li>
+					<li>
+						<div class="lihead">アドレス帳名</div>
+						<div class="libody">
+							<input id="abName" type="text" name="abName">
+						</div>
+					</li>
+					<li>
+						<div class="lihead">登録者</div>
+						<div class="libody">
+							<input id="registerName" type="text" name="registerName">
+							<button id="getregisterbutt" type="button"></button>
+						</div>
+					</li>
+				</ul>
+				<div class="formbut">
+					<button id="sumitbutt" type="submit" onclick="searchinfo()">検索</button>
+					<button id="addbutt" type="button" onclick="add()">增加</button>
+				</div>
+			</div>
+		</div>
+		<div class="showaddressform">
+			<table id="addressTable" th:fragment="ablist1">
+				<thead class="tableheader">
+					<tr>
+						<td>一覧</td>
+						<td>編集</td>
+						<td>表示プロジェクト</td>
+						<td>エクスポート</td>
+						<td>アドレス帳名</td>
+						<td>所有者グループ</td>
+						<td>更新日</td>
+						<td>削除</td>
+					</tr>
+				</thead>
+				<tbody class="tablebody">
+					<tr th:each="ablist,state:${list}">
+						<td></td>
+						<td></td>
+						<td th:text="${ablist.projectName}"></td>
+						<td></td>
+						<td th:text="${ablist.abName}"></td>
+						<td th:text="${ablist.classGroup}"></td>
+						<td th:text="${ablist.creatDate}"></td>
+						<td><button id="deletebutt" type="button"
+								th:onclick="deleteAb()">削除</button></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</form>
+</body>
+<script>
+$(document).ready(function(){
+	$.ajax({
+		url : 'http://localhost:8080/getAllAddress',
+		type : 'POST',
+		success : function(data) {
+			$("#addressTable").html(data);
+		},
+	});
+});
+	function searchinfo(){
+		const data={
+				abName : $('#abName').val(),
+				classGroup : $('#classGroup').val(),
+				registerName : $('#registerName').val()
+				
+		}
+		const jsonData = JSON.stringify(data);
+		$.ajax({
+			url : 'http://localhost:8080/searchAddress',
+			type : 'POST',
+			contentType: 'application/json',
+			data: jsonData,
+		      success: function(responseData) {
+		            // 在成功接收到响应后处理数据
+		           console.log(responseData);
+		            $("#addressTable").html(responseData);
+		        },
+		        error: function(xhr, status, error) {
+		            // 处理错误情况
+		            console.error("发生错误:", error);
+		        }
+		});
+	}
+	function add() {
+		location.href = '[[@{/add}]]';
+	}
+	function deleteAb() {
+		var result = confirm("您确定要删除吗？");
+
+		// 如果用户点击了确认按钮，则执行点击事件
+		if (result) {
+			const data = {
+				abName : $('#abName').val()
+			}
+			const jsonData = JSON.stringify(data);
+			$.ajax({
+				url : 'http://localhost:8080/delete',
+				type : 'POST',
+				contentType: 'application/json',
+				data: jsonData,
+				success : function(responseData) {
+					 $("#addressTable").html(responseData);
+				},
+			});
+		}
+	}
+</script>

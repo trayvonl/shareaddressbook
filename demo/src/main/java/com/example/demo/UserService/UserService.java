@@ -1,0 +1,20 @@
+package com.example.demo.UserService;
+
+import org.springframework.stereotype.Service;
+
+import com.example.demo.Bean.NewPassWord;
+import com.example.demo.vo.User;
+
+@Service
+public interface UserService {
+	/**
+	 * ユーザー名とパスワードを検証します
+	 * 
+	 * @param userName ユーザー名
+	 * @param passWord パスワード
+	 */
+	User userLogin(String userName, String passWord);
+
+	void updatePw(NewPassWord newPassWord);
+
+}

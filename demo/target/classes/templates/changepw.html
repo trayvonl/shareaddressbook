@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style scoped>
+.box {
+	width: 800px;
+	height: 565px;
+	margin: 70px auto;
+}
+
+.box-content {
+	position: relative;
+	overflow: hidden;
+	height: 465px;
+	background: #fff;
+	border-radius: 4px;
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+</style>
+</head>
+<body>
+	<form th:action="@{/changePassWord}" method="post">
+		<div class="box">
+			<div class="box-content">
+				<input type="password" name="passWord" placeholder="请输入旧密码">
+				<br /> <input type="password" placeholder="请输入新密码"
+					name="newPassWord"> <br /> <br />
+				<button id="changepwbutt" type="submit">确认</button>
+			</div>
+		</div>
+	</form>
+	<script>
+    </script>
+
+</body>
+
+</html>

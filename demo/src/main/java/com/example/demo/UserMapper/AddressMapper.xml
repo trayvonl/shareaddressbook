@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.UserMapper.AddressMapper">
+	<select id="search"
+		resultType="com.example.demo.vo.AddressResult">
+		select
+		ABNAME,
+		PROJECTNAME,
+		CLASSGROUP,
+		CREATDATE
+		from
+		MY."AddressBookTable"
+		where (CLASSGROUP =
+		#{classGroup} or
+		#{classGroup
+		}
+		= '' or
+		#{classGroup}
+		is null)
+		and
+		(ABNAME= #{abName}
+		or
+		#{abName} = '' or
+		#{abName
+		} is null)
+		and
+		(REGISTERNAME =
+		#{registerName} or
+		#{registerName
+		}
+		= '' or
+		#{registerName} is null)
+	</select>
+	<insert id="add"
+		parameterType="com.example.demo.Bean.AddAddress">
+		insert into MY."AddressBookTable"
+		("ABNAME","PROJECTNAME","CLASSGROUP","REGISTERNAME","CREATDATE")
+		values (#{abName}, #{projectName}, #{classGroup}, #{registerName,},
+		#{creatDate})
+	</insert>
+	<select id="getAll"
+		resultType="com.example.demo.vo.AddressResult">
+		select
+		ABNAME,
+		PROJECTNAME,
+		CLASSGROUP,
+		CREATDATE
+		from
+		MY."AddressBookTable"
+	</select>
+	<delete id="deleteAb" parameterType="String">
+		delete from MY."AddressBookTable" where "ABNAME" = #{abName}
+	</delete>
+</mapper>
