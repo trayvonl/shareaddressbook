@@ -5,37 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<style type="text/css">
-.box {
-	width: 800px;
-	height: 565px;
-	margin: 70px auto;
-}
-
-.box-content {
-	position: relative;
-	overflow: hidden;
-	height: 465px;
-	background: #fff;
-	border-radius: 4px;
-	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
-}
-</style>
+<link rel="stylesheet" type="text/css"  th:href="@{/css/style.css}">
 </head>
 <body>
 	<h2>更新プログラム</h2>
 	<div class="box">
 		<div class="box-content">
-			<form th:action="@{/update}" method="post">
-				<table th:each="item,state:${list}">
+			<form th:action="@{/updateInfo}" method="post">
+				<table th:each="addressResult,state:${addressResult}">
 					<tr>
 						<td>アドレス帳名:</td>
 						<td><input type="text" name="abName"
-							th:value="${item.abName}"></td>
+							th:value="${addressResult.abName}" readonly="readonly"></td>
 					</tr>
 					<tr>
 						<td>所有者グループ:</td>
-						<td><select name="classGroup" th:value="${item.classGroup}">
+						<td><select name="classGroup" th:value="${addressResult.classGroup}">
 								<option></option>
 								<option value="1">1</option>
 								<option value="2">2</option>
@@ -44,12 +29,12 @@
 					<tr>
 						<td>登録者:</td>
 						<td><input type="text" name="registerName"
-							th:value="${item.reporter}"></td>
+							th:value="${addressResult.registerName}"></td>
 					</tr>
 					<tr>
 						<td>項目:</td>
 						<td><input type="text" name="projectName"
-							th:value="${item.project}"></td>
+							th:value="${addressResult.projectName}"></td>
 					</tr>
 				</table>
 					<button type="submit" id="change-btn">更新</button>
@@ -57,4 +42,6 @@
 		</div>
 	</div>
 </body>
+<script>
+</script>
 </html>

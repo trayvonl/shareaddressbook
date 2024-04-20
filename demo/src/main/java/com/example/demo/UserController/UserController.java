@@ -23,19 +23,29 @@ public class UserController {
 	@RequestMapping("/userLogin")
 	public String login(String userName, String passWord, HttpSession session, Model model) {
 		User user = userService.userLogin(userName, passWord);
-
+		LocalDate currentDate = LocalDate.now();
+		session.setAttribute("user", user);
 		try {
-			LocalDate currentDate = LocalDate.now();
+			if (userName == null || passWord == null || userName == "" || passWord == "") {
+				throw new RuntimeException("ユーザー名とパスワードを入力してください");
+			}
+
+			if (user == null) {
+				throw new RuntimeException("ユーザー名が間違っています");
+			}
+
+			if (!user.getPassWord().equals(passWord)) {
+				throw new RuntimeException("パスワードが間違っています");
+			}
+
 			if (user.getEndTime().toLocalDate().compareTo(currentDate) < 0) {
-				session.setAttribute("user", user);
+
 				return "redirect:/changepw";// 現在の日付がユーザーの有効期限を過ぎている場合、changepwページにリダイレクト
 			} else {
-				session.setAttribute("user", user);
 				return "redirect:/shareaddressbook";// パスワードがまだ期限切れでない場合、shareaddressbookページにリダイレクト
 			}
 		} catch (RuntimeException e) {
 			model.addAttribute("error", e.getMessage());
-
 			return "login";
 		}
 	}
@@ -46,7 +56,5 @@ public class UserController {
 		System.out.println(newPassWord);
 		userService.updatePw(newPassWord);
 		return "login";// パスワードの変更に成功した場合、ログインページにリダイレクト
-    }
 	}
-
-
+}

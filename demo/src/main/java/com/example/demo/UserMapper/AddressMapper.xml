@@ -4,6 +4,7 @@
 	<select id="search"
 		resultType="com.example.demo.vo.AddressResult">
 		select
+		ID,
 		ABNAME,
 		PROJECTNAME,
 		CLASSGROUP,
@@ -35,12 +36,13 @@
 		parameterType="com.example.demo.Bean.AddAddress">
 		insert into MY."AddressBookTable"
 		("ABNAME","PROJECTNAME","CLASSGROUP","REGISTERNAME","CREATDATE")
-		values (#{abName}, #{projectName}, #{classGroup}, #{registerName,},
+		values (#{abName}, #{projectName}, #{classGroup}, #{registerName},
 		#{creatDate})
 	</insert>
 	<select id="getAll"
 		resultType="com.example.demo.vo.AddressResult">
 		select
+		ID,
 		ABNAME,
 		PROJECTNAME,
 		CLASSGROUP,
@@ -48,7 +50,32 @@
 		from
 		MY."AddressBookTable"
 	</select>
-	<delete id="deleteAb" parameterType="String">
-		delete from MY."AddressBookTable" where "ABNAME" = #{abName}
+	<delete id="deleteAb"
+		parameterType="com.example.demo.Bean.AddressId">
+		delete from
+		MY."AddressBookTable" where "ID" = #{id}
 	</delete>
+	<select id="getAddress"
+		resultType="com.example.demo.vo.AddressResult">
+		select
+		ABNAME,
+		PROJECTNAME,
+		CLASSGROUP,
+		REGISTERNAME
+		from
+		MY."AddressBookTable"
+		where "ID" = #{id}
+	</select>
+	<update id="updateAddress"
+		parameterType="com.example.demo.Bean.AddAddress">
+		update MY."AddressBookTable"
+		set
+		"PROJECTNAME" = #{projectName},
+		"CLASSGROUP" = #{classGroup},
+		"REGISTERNAME" = #{registerName},
+		"CREATDATE" = #{creatDate}
+		WHERE
+		"ABNAME" =
+		#{abName}
+	</update>
 </mapper>

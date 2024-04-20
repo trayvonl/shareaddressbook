@@ -12,4 +12,5 @@ public class AddAddress {
 	private	String projectName;
 	private	String registerName;
 	private	Date creatDate;
+	private int id;
 }

@@ -11,4 +11,5 @@ public class AddressResult {
 	private String projectName;
 	private String registerName;
 	private LocalDate creatDate;
+	private int id;
 }

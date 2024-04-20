@@ -21,18 +21,8 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public User userLogin(String userName, String passWord) {
-		if (userName == null || passWord == null || userName == "" || passWord == "") {
-			throw new RuntimeException("ユーザー名とパスワードを入力してください");
-		}
 		User user = userMapper.login(userName);// userNameからuserオブジェクトを返す
-		if (user == null) {
-			throw new RuntimeException("ユーザー名が間違っています");
-		}
-
-		if (!user.getPassWord().equals(passWord)) {
-			throw new RuntimeException("パスワードが間違っています");
-		}
-
+		
 		return user;
 	}
 

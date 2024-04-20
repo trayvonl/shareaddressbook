@@ -5,28 +5,51 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.Bean.AddAddress;
+import com.example.demo.Bean.AddressId;
 import com.example.demo.Bean.AddressInfo;
-import com.example.demo.Bean.DeleteAddress;
 import com.example.demo.vo.AddressResult;
 
 @Service
 public interface AddressService {
 	/**
-	*ユーザーが入力した情報を検索し、リストを返します
-	*@param addressInfo ユーザー入力情報オブジェクト
-	*/
-//	List<AddressResult> search(AddressInfo addressInfo);
-	/**
-	*新しいアドレス情報を追加します
-	*@param addAddress
-	*/
+	 * 新しいアドレス情報を追加します
+	 * 
+	 * @param addAddress
+	 */
 	void add(AddAddress addAddress);
+
 	/**
-	*查询返回所有通讯录信息
-	*@param null
-	*/
+	 * すべてのアドレス情報を返す
+	 * 
+	 * @param null
+	 */
 	List<AddressResult> getAll();
-	void deleteAb(DeleteAddress deleteAddress);
+
+	/**
+	 * ユーザーを削除する
+	 * 
+	 * @param addressId
+	 */
+	void deleteAb(AddressId addressId);
+
+	/**
+	 * 検索機能
+	 * 
+	 * @param addressInfo
+	 */
 	List<AddressResult> search(AddressInfo addressInfo);
+
+	/**
+	 * IDに基づいて単一のユーザー情報を返す
+	 * 
+	 * @param addressId
+	 */
+	AddressResult getAddress(AddressId addressId);
+	/**
+	 * ユーザー情報を更新する
+	 * 
+	 * @param addAddress
+	 */
+	void updateAddress(AddAddress addAddress);
 
 }
